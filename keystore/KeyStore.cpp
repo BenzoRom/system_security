@@ -54,10 +54,6 @@ KeyStore::KeyStore(const KeymasterDevices& kmDevices,
     : mAllowNewFallback(minimalAllowedSecurityLevelForNewKeys == SecurityLevel::SOFTWARE),
       mConfirmationManager(new ConfirmationManager(this)) {
     memset(&mMetaData, '\0', sizeof(mMetaData));
-
-    static_assert(std::tuple_size<std::decay_t<decltype(kmDevices)>>::value ==
-                      std::tuple_size<decltype(mKmDevices)>::value,
-                  "KmasterDevices and KeymasterWorkers must have the same size");
     for (size_t i = 0; i < kmDevices.size(); ++i) {
         if (kmDevices[SecurityLevel(i)]) {
             mKmDevices[SecurityLevel(i)] =
