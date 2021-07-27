@@ -261,7 +261,7 @@ pub fn get_keymint_device(
     security_level: &SecurityLevel,
 ) -> Result<(Asp, KeyMintHardwareInfo, Uuid)> {
     let mut devices_map = KEY_MINT_DEVICES.lock().unwrap();
-    if let Some((dev, hw_info, uuid)) = devices_map.dev_by_sec_level(&security_level) {
+    if let Some((dev, hw_info, uuid)) = devices_map.dev_by_sec_level(security_level) {
         Ok((dev, hw_info, uuid))
     } else {
         let (dev, hw_info) = connect_keymint(security_level).context("In get_keymint_device.")?;
@@ -382,7 +382,7 @@ fn connect_remotely_provisioned_component(security_level: &SecurityLevel) -> Res
 /// by making a new connection. Returns the device.
 pub fn get_remotely_provisioned_component(security_level: &SecurityLevel) -> Result<Asp> {
     let mut devices_map = REMOTELY_PROVISIONED_COMPONENT_DEVICES.lock().unwrap();
-    if let Some(dev) = devices_map.dev_by_sec_level(&security_level) {
+    if let Some(dev) = devices_map.dev_by_sec_level(security_level) {
         Ok(dev)
     } else {
         let dev = connect_remotely_provisioned_component(security_level)
